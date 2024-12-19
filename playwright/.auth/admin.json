@@ -2,9 +2,9 @@
   "cookies": [
     {
       "name": "orangehrm",
-      "value": "p4rcnk5sjh68kjhhu0o3jt0eu3",
-      "domain": "opensource-demo.orangehrmlive.com",
-      "path": "/web",
+      "value": "eeq0o19gkfkqutiafu86h2aeaa",
+      "domain": "buianthai.online",
+      "path": "/orangehrm/web",
       "expires": -1,
       "httpOnly": true,
       "secure": true,
@@ -13,7 +13,7 @@
   ],
   "origins": [
     {
-      "origin": "https://opensource-demo.orangehrmlive.com",
+      "origin": "https://buianthai.online",
       "localStorage": [
         {
           "name": "\"ZWs3TwZKMQ7IEEFBrjJOSwRM4nXcQgsOPZKkNJnMS5o=\"",

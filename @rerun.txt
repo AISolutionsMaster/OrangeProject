@@ -1,0 +1,5 @@
+src\test\features\admin\configuration\socialMediaAuthen.feature:7
+src\test\features\admin\job\jobTitles.feature:7:12:18:24:30
+src\test\features\admin\organization\locations.feature:11:23:57
+src\test\features\admin\organization\structure.feature:18
+src\test\features\admin\userManagement\user.feature:19:20:23:43:58:64:69:74
