@@ -38,7 +38,7 @@ jobs:
         while IFS= read -r run_id; do
           gh run download "$run_id" --dir "artifacts/$run_id" || echo "No artifacts found for run_id: $run_id"
         done < run_ids.txt
-        cat artifacts/*/artifact/cucumber-report.json
+        ls artifacts/*/artifact/cucumber-report.json|tail -1|cat
       if: always()
     - name: Upload test results
       uses: actions/upload-artifact@v4
