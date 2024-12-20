@@ -24,6 +24,8 @@ jobs:
     - name: Run automated testcase with cucumber
       run: npm test
       shell: bash
+    - name: list test results
+      run: cat test-results/cucumber-report.json
     - name: Upload test results
       uses: actions/upload-artifact@v4
       with:
