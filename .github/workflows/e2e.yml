@@ -29,3 +29,5 @@ jobs:
       with:
         path: test-results/cucumber-report.json
       if: always()
+    - name: Download all workflow run artifacts
+      uses: actions/download-artifact@v4
