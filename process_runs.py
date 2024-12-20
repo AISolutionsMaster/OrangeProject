@@ -17,7 +17,7 @@ def download_artifact(url):
     print(f"Error downloading artifact: {url} (status code: {response.status_code})")
 
 # Read artifact links from the text file
-with open("artifact_links.txt", "r") as f:
+with open("artifact_urls.txt", "r") as f:
   artifact_links = f.readlines()
 
 # Remove any leading/trailing whitespace from links
