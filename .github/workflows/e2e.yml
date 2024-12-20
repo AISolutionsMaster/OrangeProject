@@ -30,8 +30,10 @@ jobs:
         path: runreport 
       if: always()
     - name: Rename the file
-      run: cp test-results/cucumber-report.json runreport/cucumber-report_$(date +%Y%m%d_%H%M%S).json
-      ls runreport/*
+      run: |
+        cp test-results/cucumber-report.json runreport/cucumber-report_$(date +%Y%m%d_%H%M%S).json
+        ls runreport
+      if: always()
     - name: Upload test results
       uses: actions/upload-artifact@v4
       with:
