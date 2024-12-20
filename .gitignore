@@ -6,5 +6,6 @@
 /blob-report/
 /playwright/.cache/
 node_modules/
-/index.html/
+index.html
 /playwright/
+@rerun.txt
