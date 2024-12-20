@@ -23,7 +23,7 @@ jobs:
     #   run: npx playwright test || true
     # - name: Run automated testcase with cucumber
     #   run: npm test ||true
-      shell: bash
+    #  shell: bash
     - name: Authenticate GitHub CLI
       run: echo "${{ secrets.GH_PAT }}" | gh auth login --with-token
     - name: List previous successful runs
