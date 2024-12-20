@@ -30,12 +30,13 @@ jobs:
       id: list_runs
       run: |
         gh run list --workflow=e2e.yml --branch=main --json databaseId --jq '.[].databaseId' > run_ids.txt
-        cat run_ids.txt
+        cat -A run_ids.txt
       if: always()
     - name: Download artifacts from previous runs
       run: |
         while IFS= read -r run_id; do
-          gh run download "$run_id" --dir artifacts/$run_id
+          echo "Processing run_id: $run_id"
+          gh run download "$run_id" --dir "artifacts/$run_id" || echo "No artifacts found for run_id: $run_id"
         done < run_ids.txt
       if: always()
     - name: Rename the file
