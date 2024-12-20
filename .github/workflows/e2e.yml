@@ -24,10 +24,18 @@ jobs:
     - name: Run automated testcase with cucumber
       run: npm test ||true
       shell: bash
-    - name: Download all workflow run artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: runreport 
+    - name: Authenticate GitHub CLI
+      run: echo "${{ secrets.GH_PAT }}" | gh auth login --with-token
+    - name: List previous successful runs
+      id: list_runs
+      run: |
+        gh run list --workflow=e2e.yml --branch=main --json databaseId --jq '.[].databaseId' > run_ids.txt
+      if: always()
+    - name: Download artifacts from previous runs
+      run: |
+        while IFS= read -r run_id; do
+          gh run download "$run_id" --dir artifacts/$run_id
+        done < run_ids.txt
       if: always()
     - name: Rename the file
       run: |
