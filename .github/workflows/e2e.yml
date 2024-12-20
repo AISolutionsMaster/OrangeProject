@@ -1,7 +1,5 @@
 name: Playwright Cucumber Tests
 on:
-  push:
-    branches: [ main]
   pull_request:
     branches: [ main]
   schedule:
@@ -21,5 +19,13 @@ jobs:
       run: npx playwright install --with-deps
     - name: Install Cucumber
       run: npm install --save-dev @cucumber/cucumber
+    - name: Run global file to get session login
+      run: npx playwright test || true
     - name: Run automated testcase with cucumber
       run: npm test
+      shell: bash
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      with:
+        path: test-results/cucumber-report.*
+      if: always()
