@@ -20,10 +20,11 @@ jobs:
           # Use the GitHub API to fetch previous workflow runs
           curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -X GET https://api.github.com/repos/AISolutionsMaster/OrangeProject/actions/runs \
-            -o previous_runs.json
+            | jq -r '.artifacts_url' > artifact_urls.txt
+            
       - name: list
         run: 
-          cat previous_runs.json
+          cat artifact_urls.txt
       - name: Download and Process Artifacts
         run: |
           # Parse the previous_runs.json file
