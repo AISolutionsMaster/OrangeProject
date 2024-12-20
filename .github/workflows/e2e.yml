@@ -35,9 +35,9 @@ jobs:
     - name: Download artifacts from previous runs
       run: |
         while IFS= read -r run_id; do
-          echo "Processing run_id: $run_id"
           gh run download "$run_id" --dir "artifacts/$run_id" || echo "No artifacts found for run_id: $run_id"
         done < run_ids.txt
+        ls artifacts/*/*
       if: always()
     - name: Rename the file
       run: |
