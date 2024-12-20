@@ -27,4 +27,7 @@ jobs:
       - name: Download and Process Artifacts
         run: |
           # Parse the previous_runs.json file
-          python process_runs.py
+          #python process_runs.py
+          curl -L https://api.github.com/repos/AISolutionsMaster/OrangeProject/actions/artifacts/2348101021/zip -o artifact.zip
+          unzip artifact.zip
+          ls
