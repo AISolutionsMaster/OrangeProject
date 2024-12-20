@@ -5,7 +5,12 @@ def parse_report(report_file):
     with open(report_file, 'r') as f:
         data = json.load(f)
 
-    total_scenarios = len(data['elements'])
+    try:
+        total_scenarios = len(data['elements'])
+    except KeyError:
+        # Handle cases where "elements" key is missing
+        total_scenarios = 0
+        print(f"Warning: 'elements' key not found in {report_file}")
     passed_scenarios = 0
     failed_scenarios = 0
     skipped_scenarios = 0
