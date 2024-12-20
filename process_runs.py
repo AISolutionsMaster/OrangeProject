@@ -1,46 +1,50 @@
-import requests
+import json
+import os
 
-def download_artifact(url):
-  """
-  Downloads an artifact from the given URL.
+def parse_report(report_file):
+    with open(report_file, 'r') as f:
+        data = json.load(f)
 
-  Args:
-      url (str): The URL of the artifact to download.
-  """
-  filename = url.split("/")[-1]  # Extract filename from URL
-  response = requests.get(url, allow_redirects=True)
-  if response.status_code == 200:
-    with open(filename, 'wb') as f:
-      f.write(response.content)
-      print(f"Downloaded artifact: {filename}")
-  else:
-    print(f"Error downloading artifact: {url} (status code: {response.status_code})")
+    total_scenarios = 0
+    passed_scenarios = 0
+    failed_scenarios = 0
+    skipped_scenarios = 0
+    not_run_scenarios = 0
 
-def process_artifact_link(link):
-  """
-  Checks total_count and downloads artifact if present.
+    for feature in data['features']:
+        for scenario in feature['elements']:
+            total_scenarios += 1
+            status = scenario['result']['status']
+            if status == 'passed':
+                passed_scenarios += 1
+            elif status == 'failed':
+                failed_scenarios += 1
+            elif status == 'skipped':
+                skipped_scenarios += 1
+            else:
+                not_run_scenarios += 1
 
-  Args:
-      link (str): The URL of the artifact details API endpoint.
-  """
-  response = requests.get(link)
-  if response.status_code == 200:
-    data = response.json()
-    if data["total_count"] > 0:
-      artifact_url = data["artifacts"][0]["archive_download_url"]
-      download_artifact(artifact_url)
-  else:
-    print(f"Error getting artifact details: {link} (status code: {response.status_code})")
+    return total_scenarios, passed_scenarios, failed_scenarios, skipped_scenarios, not_run_scenarios
 
-# Read artifact links from the text file
-with open("artifact_urls.txt", "r") as f:
-  artifact_links = f.readlines()
+def process_reports(directory):
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            if file.endswith('cucumber-report.json'):
+                report_file = os.path.join(root, file)
+                total, passed, failed, skipped, not_run = parse_report(report_file)
 
-# Remove any leading/trailing whitespace from links
-artifact_links = [link.strip() for link in artifact_links]
+                # Extract timestamp from filename (if applicable)
+                timestamp = os.path.getmtime(report_file)
+                timestamp_str = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
 
-# Process each artifact link
-for link in artifact_links:
-  process_artifact_link(link)
+                print(f"Report: {report_file}")
+                print(f"Timestamp: {timestamp_str}")
+                print(f"Total Scenarios: {total}")
+                print(f"Passed Scenarios: {passed}")
+                print(f"Failed Scenarios: {failed}")
+                print(f"Skipped Scenarios: {skipped}")
+                print(f"Not Run Scenarios: {not_run}")
+                print("-----------------------------------")
 
-print("Download completed!")
+# Replace 'artifacts' with the actual directory name
+process_reports("artifacts")
