@@ -1,7 +1,6 @@
 /node_modules/
 /assets/
 /features/
-.env
 /test-results/
 /playwright-report/
 /blob-report/
