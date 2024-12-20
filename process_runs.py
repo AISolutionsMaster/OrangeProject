@@ -1,37 +1,30 @@
-import json
 import requests
-import zipfile
 
-def download_and_process_artifacts(workflow_id, artifact_name):
-    # Authenticate to GitHub API (replace with your token)
-    token = "YOUR_PERSONAL_ACCESS_TOKEN"
-    headers = {"Authorization": f"Bearer {token}"}
+def download_artifact(url):
+  """
+  Downloads an artifact from the given URL.
 
-    # Get artifact download URL
-    url = f"https://api.github.com/repos/AISolutionsMaster/OrangeProject/actions/runs/{workflow_id}/artifacts/{artifact_name}/zip"
-    response = requests.get(url, headers=headers)
-    response.raise_for_status()
+  Args:
+      url (str): The URL of the artifact to download.
+  """
+  filename = url.split("/")[-1]  # Extract filename from URL
+  response = requests.get(url, allow_redirects=True)
+  if response.status_code == 200:
+    with open(filename, 'wb') as f:
+      f.write(response.content)
+      print(f"Downloaded artifact: {filename}")
+  else:
+    print(f"Error downloading artifact: {url} (status code: {response.status_code})")
 
-    # Download the artifact ZIP file
-    with open("artifact.zip", "wb") as f:
-        f.write(response.content)
+# Read artifact links from the text file
+with open("artifact_links.txt", "r") as f:
+  artifact_links = f.readlines()
 
-    # Extract the artifact
-    with zipfile.ZipFile("artifact.zip", 'r') as zip_ref:
-        zip_ref.extractall()
+# Remove any leading/trailing whitespace from links
+artifact_links = [link.strip() for link in artifact_links]
 
-    # Process the artifact (example: processing a JSON file)
-    with open("extracted_artifact.json", "r") as f:
-        data = json.load(f)
-        # Process the JSON data here
-        print(data)
+# Download each artifact
+for link in artifact_links:
+  download_artifact(link)
 
-with open('previous_runs.json', 'r') as f:
-  runs = json.load(f)
-
-for run in runs:
-  workflow_id = run['id']
-  # Filter runs based on specific criteria
-  if is_relevant_run(run):
-    # Download and process artifacts from the run
-    download_and_process_artifacts(workflow_id, 'artifact_name')
+print("Download completed!")

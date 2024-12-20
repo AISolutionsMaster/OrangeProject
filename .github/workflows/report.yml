@@ -21,10 +21,6 @@ jobs:
           curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -X GET https://api.github.com/repos/AISolutionsMaster/OrangeProject/actions/runs \
             | grep "artifact"| awk -F '":' '{print $2}' | cut -d '"' -f2 > artifact_urls.txt
-            
-      - name: list
-        run: 
-          cat artifact_urls.txt
       - name: Download and Process Artifacts
         run: |
           # Parse the previous_runs.json file
