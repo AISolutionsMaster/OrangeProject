@@ -23,7 +23,7 @@ jobs:
             -o previous_runs.json
       - name: list
         run: 
-          ls
+          cat previous_runs.json
       - name: Download and Process Artifacts
         run: |
           # Parse the previous_runs.json file
