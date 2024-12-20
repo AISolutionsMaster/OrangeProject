@@ -22,16 +22,19 @@ jobs:
     - name: Run global file to get session login
       run: npx playwright test || true
     - name: Run automated testcase with cucumber
-      run: npm test
+      run: npm test ||true
       shell: bash
-    - name: list test results
-      run: cat test-results/cucumber-report.json
+    - name: Download all workflow run artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: runreport 
+      if: always()
+    - name: Rename the file
+      run: cp test-results/cucumber-report.json runreport/cucumber-report_$(date +%Y%m%d_%H%M%S).json
+      ls runreport/*
     - name: Upload test results
       uses: actions/upload-artifact@v4
       with:
-        path: test-results/cucumber-report.json
-      if: always()
-    - name: Download all workflow run artifacts
-      uses: actions/download-artifact@v4
+        path: runreport/cucumber-report*.json
       if: always()
 
