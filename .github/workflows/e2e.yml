@@ -38,7 +38,8 @@ jobs:
       id: list_runs
       run: |
         gh run list --workflow=e2e.yml --branch=main --limit 1 
-        gh run list --workflow=e2e.yml --branch=main  --json databaseId,createdAt | jq -r '.[0] | "\(.id), \(.created_at)"' > run_ids.txt
+        gh run list --workflow=e2e.yml --branch=main  --json databaseId,createdAt | jq -r '.[0] | "\(.databaseId),\(.createdAt)"' > run_ids.txt
+        cat run_ids.txt
       if: always()
     - name: Download artifacts from previous runs
       run: |
