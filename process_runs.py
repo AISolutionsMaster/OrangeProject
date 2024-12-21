@@ -55,7 +55,7 @@ logging.basicConfig(
 )
 
 def process_reports_to_csv(report_files, output_csv):
-    fieldnames = ['file_name', 'total_scenarios', 'passed', 'failed', 'skipped']
+    fieldnames = ['time', 'total_scenarios', 'passed', 'failed', 'skipped']
     logging.info(f'Starting to process {len(report_files)} report files.')
     
     with open(output_csv, 'w', newline='') as csvfile:
@@ -128,7 +128,7 @@ if __name__ == "__main__":
     process_reports_to_csv(report_files, output_csv)
     print(f"Aggregated report saved to {output_csv}")
     try:
-    df = parse_data(output_csv)
-    plot_results(df)
+        df = parse_data(output_csv)
+        plot_results(df)
     except FileNotFoundError:
-    print(f"Error: File '{output_csv}' not found.")
+        print(f"Error: File '{output_csv}' not found.")
