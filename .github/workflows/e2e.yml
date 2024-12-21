@@ -38,7 +38,7 @@ jobs:
       id: list_runs
       run: |
         gh run list --workflow=e2e.yml --branch=main --limit 1 
-        gh run list --workflow=e2e.yml --branch=main  --json databaseId,created_at | jq -r '.[0] | "\(.id), \(.created_at)"' > run_ids.txt
+        gh run list --workflow=e2e.yml --branch=main  --json databaseId,createdAt | jq -r '.[0] | "\(.id), \(.created_at)"' > run_ids.txt
       if: always()
     - name: Download artifacts from previous runs
       run: |
@@ -53,6 +53,6 @@ jobs:
     - name: Upload test results
       uses: actions/upload-artifact@v4
       with:
-        path: cucumber-report.json
+        path: test-results/cucumber-report.json
       if: always()
 
