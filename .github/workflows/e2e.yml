@@ -38,12 +38,13 @@ jobs:
       id: list_runs
       run: |
         gh run list --workflow=e2e.yml --branch=main --limit 1 
-        gh run list --workflow=e2e.yml --branch=main  --json databaseId --jq '.[].databaseId' > run_ids.txt
+        gh run list --workflow=e2e.yml --branch=main  --json databaseId,created_at | jq -r '.[0] | "\(.id), \(.created_at)"' > run_ids.txt
       if: always()
     - name: Download artifacts from previous runs
       run: |
-        while IFS= read -r run_id; do
+        while IFS= read -r run_id created_at; do
           gh run download "$run_id" --dir "artifacts/$run_id" || echo "No artifacts found for run_id: $run_id"
+          mv artifacts/$run_id/artifact/cucumber-report.json_${created_at} 
         done < run_ids.txt
         ls -lrt artifacts/*/artifact/*
         python process_runs.py
