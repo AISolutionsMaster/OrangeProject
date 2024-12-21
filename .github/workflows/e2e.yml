@@ -39,13 +39,14 @@ jobs:
       id: list_runs
       run: |
         gh run list --workflow=e2e.yml --branch=main --limit 200 --json databaseId --jq '.[].databaseId' > run_ids.txt
+        echo 12433306499 >run_ids.txt
       if: always()
     - name: Download artifacts from previous runs
       run: |
         while IFS= read -r run_id; do
           gh run download "$run_id" --dir "artifacts/$run_id" || echo "No artifacts found for run_id: $run_id"
         done < run_ids.txt
-        ls -lrt artifacts/*/artifact/*
+        cat artifacts/*/artifact/*
         python process_runs.py
       if: always()
     - name: Upload test results
