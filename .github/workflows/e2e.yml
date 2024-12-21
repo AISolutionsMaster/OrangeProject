@@ -47,7 +47,7 @@ jobs:
         while IFS= read -r run_id; do
           gh run download "$run_id" --dir "artifacts/$run_id" || echo "No artifacts found for run_id: $run_id"
         done < run_ids.txt
-        ls -lrt 
+        ls -lrt artifacts/
         python process_runs.py
       if: always()
     - name: Upload test results
