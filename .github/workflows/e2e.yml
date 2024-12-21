@@ -43,12 +43,11 @@ jobs:
       if: always()
     - name: Download artifacts from previous runs
       run: |
-        mkdir artifacts
-        while IFS= read -r run_id; do
-          mkdir artifacts/$run_id
+         while IFS= read -r run_id; do
           gh run download "$run_id" --dir "artifacts/$run_id" || echo "No artifacts found for run_id: $run_id"
         done < run_ids.txt
-        ls -lrt artifacts/*/
+        file_path=$(find artifacts/*/artifact/ -name "cucumber-report.json" -print -quit)
+        cat "$file_path"
         python process_runs.py
       if: always()
     - name: Upload test results
