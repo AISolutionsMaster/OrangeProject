@@ -85,6 +85,7 @@ def parse_data(filename):
   """
   data = []
   with open(filename, 'r') as f:
+    next(f)
     for line in f:
       timestamp, total_scenarios, passed, failed, skipped = line.strip().split(',')
       data.append({
