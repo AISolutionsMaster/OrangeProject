@@ -35,11 +35,10 @@ jobs:
       run: echo "${{ secrets.GH_PAT }}" | gh auth login --with-token
       shell: bash
       if: always()
-    - name: List previous successful runs
+    - name: List previous runs
       id: list_runs
       run: |
-        gh run list --workflow=e2e.yml --branch=main --json databaseId --jq '.[].databaseId' > run_ids1.txt
-        echo 12429534500  >run_ids.txt
+        gh run list --workflow=e2e.yml --branch=main --json databaseId 
       if: always()
     - name: Download artifacts from previous runs
       run: |
