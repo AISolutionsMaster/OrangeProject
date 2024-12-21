@@ -38,7 +38,7 @@ jobs:
     - name: List previous runs
       id: list_runs
       run: |
-        gh run list --workflow=e2e.yml --branch=main --json databaseId 
+        gh run list --workflow=e2e.yml --branch=main --limit 200 --json databaseId --jq '.[].databaseId' > run_ids.txt
       if: always()
     - name: Download artifacts from previous runs
       run: |
