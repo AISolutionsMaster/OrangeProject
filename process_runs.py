@@ -36,9 +36,9 @@ def process_report(file_path):
                     skipped += 1
     # Extract file name without "_created_at"
     file_name = os.path.basename(file_path)
-    file_name = file_name.split("json_")[1]
+    time_field = file_name.split("json_")[1]
     return {
-        'file_name': file_name,
+        'time': time_field,
         'total_scenarios': total_scenarios,
         'passed': passed,
         'failed': failed,
