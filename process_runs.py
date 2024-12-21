@@ -1,3 +1,5 @@
+import pandas as pd
+import matplotlib.pyplot as plt
 import glob
 import json
 import csv
@@ -32,9 +34,11 @@ def process_report(file_path):
                     failed += 1
                 elif scenario_status == 'skipped':
                     skipped += 1
-
+    # Extract file name without "_created_at"
+    file_name = os.path.basename(file_path)
+    file_name = file_name.split("json_")[1]
     return {
-        'file_name': os.path.basename(file_path),
+        'file_name': file_name,
         'total_scenarios': total_scenarios,
         'passed': passed,
         'failed': failed,
@@ -69,9 +73,62 @@ def process_reports_to_csv(report_files, output_csv):
     
     logging.info(f'Finished processing reports. Output saved to {output_csv}')
 
+def parse_data(filename):
+  """
+  Parses the data file and returns a pandas DataFrame.
+
+  Args:
+    filename: Path to the file containing the data.
+
+  Returns:
+    A pandas DataFrame with columns: 'timestamp', 'total_scenarios', 'passed', 'failed', 'skipped'.
+  """
+  data = []
+  with open(filename, 'r') as f:
+    for line in f:
+      timestamp, total_scenarios, passed, failed, skipped = line.strip().split(',')
+      data.append({
+          'timestamp': pd.to_datetime(timestamp),
+          'total_scenarios': int(total_scenarios),
+          'passed': int(passed),
+          'failed': int(failed),
+          'skipped': int(skipped)
+      })
+  return pd.DataFrame(data)
+
+def plot_results(df):
+  """
+  Plots the test results over time.
+
+  Args:
+    df: pandas DataFrame containing the test results.
+  """
+  plt.figure(figsize=(10, 6))
+
+  # Plot total scenarios
+  plt.plot(df['timestamp'], df['total_scenarios'], label='Total Scenarios')
+
+  # Plot passed, failed, and skipped scenarios
+  plt.plot(df['timestamp'], df['passed'], label='Passed')
+  plt.plot(df['timestamp'], df['failed'], label='Failed')
+  plt.plot(df['timestamp'], df['skipped'], label='Skipped')
+
+  plt.xlabel('Timestamp')
+  plt.ylabel('Number of Scenarios')
+  plt.title('Test Results Over Time')
+  plt.legend()
+  plt.xticks(rotation=45) 
+  plt.grid(True)
+  plt.show()
+
 if __name__ == "__main__":
     # List your cucumber_report.json file paths
     report_files = glob.glob('artifacts/*/artifact/cucumber-report.json*')
     output_csv = 'aggregated_report.csv'
     process_reports_to_csv(report_files, output_csv)
     print(f"Aggregated report saved to {output_csv}")
+    try:
+    df = parse_data(output_csv)
+    plot_results(df)
+    except FileNotFoundError:
+    print(f"Error: File '{output_csv}' not found.")
