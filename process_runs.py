@@ -71,7 +71,7 @@ def process_reports_to_csv(report_files, output_csv):
 
 if __name__ == "__main__":
     # List your cucumber_report.json file paths
-    report_files = glob.glob('artifacts/*/artifact/cucumber_report.json')
+    report_files = glob.glob('artifacts/*/artifact/cucumber-report.json')
     output_csv = 'aggregated_report.csv'
     process_reports_to_csv(report_files, output_csv)
     print(f"Aggregated report saved to {output_csv}")
