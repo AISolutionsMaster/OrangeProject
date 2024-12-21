@@ -43,7 +43,7 @@ jobs:
       if: always()
     - name: Download artifacts from previous runs
       run: |
-         while IFS= read -r run_id; do
+        while IFS= read -r run_id; do
           gh run download "$run_id" --dir "artifacts/$run_id" || echo "No artifacts found for run_id: $run_id"
         done < run_ids.txt
         file_path=$(find artifacts/*/artifact/ -name "cucumber-report.json" -print -quit)
