@@ -32,8 +32,9 @@ Before(async function (this: TestContext) {
 After(async function (this: TestContext, { pickle, result }) {
   // console.log("Closing context and page...");
   if (result?.status === Status.FAILED) {
+    const sanitizedName = pickle.name.replace(/:/g, ''); // Remove all colons
     await this.Page.screenshot({
-      path: `./test-results/screenshots/${pickle.name}.png`,
+      path: `./test-results/screenshots/${sanitizedName}.png`,
       type: "png",
     });
   }
