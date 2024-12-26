@@ -2,7 +2,7 @@ name: Playwright Cucumber Tests
 concurrency:
   group: ${{ github.workflow }}
 on:
-  pull_request:
+  push:
     branches: [main, develop]
 jobs:
   e2e_on_pull_request:
