@@ -20,7 +20,7 @@ jobs:
     - name: Run global file to get session login
       run: npx playwright test || true  
     - name: Run automated testcase with cucumber
-      run: npm run test -- --parallel 2
+      run: npm run test -- --parallel 5
       shell: bash
     - name: Upload test results
       uses: actions/upload-artifact@v4
