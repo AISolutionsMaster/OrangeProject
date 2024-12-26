@@ -26,5 +26,7 @@ jobs:
       - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
-          path: test-results/cucumber-report.*
+          path: |
+            test-results/cucumber-report.*
+            test-results/screenshots/*.png
         if: always()
