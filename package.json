@@ -26,8 +26,6 @@
   "devDependencies": {
     "@cucumber/cucumber": "^11.1.0",
     "@playwright/test": "^1.49.0",
-    "@types/axios": "^0.14.4",
-    "@types/cucumber": "^7.0.3",
     "@types/node": "^22.9.1",
     "multiple-cucumber-html-reporter": "^3.8.0",
     "pretty": "^2.0.0",
