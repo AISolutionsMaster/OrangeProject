@@ -23,7 +23,7 @@ export default class SocialMediaPage {
         successToast: () => this.page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]'),
         newProvider: (text: string) => this.page.locator(`//div[text()="${text}"]`),
         editIcon: (text: string) => this.page.locator(`//div[text()="${text}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]`),
-        updatedProvider: (text: string) => this.page.locator(`//div[contains(text(),'provider2')]`), 
+        updatedProvider: (text: string) => this.page.locator(`//div[contains(text(),"${text}")]`), 
         deleteIcon: (text: string) => this.page.locator(`//div[text()="${text}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-trash"]`),
         confirmDeleteBtn: () => this.page.locator("//button[normalize-space()='Yes, Delete']"),
         checkbox: (text: string) => this.page.locator(`//div[contains(text(), "${text}")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]`),
