@@ -18,7 +18,7 @@ Feature: Functions in Configuration menu: Social Media Authentication
   @high
   Scenario: SM_03: Edit a provider
     When User creates a new provider with name "initialProvider", provider url "url", client id "124", client secret "secret"
-    And User updates a provider "initalProvider" to name "provider2", provider url "url2", client id "1236", client secret "secret2"
+    And User updates a provider "initialProvider" to name "provider2", provider url "url2", client id "1236", client secret "secret2"
     Then Provider has been updated to "provider2"
     When User removes a provider with name "provider2"
     Then Provider "provider2" has been deleted
