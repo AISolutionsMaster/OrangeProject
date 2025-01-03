@@ -71,6 +71,8 @@ export default class SocialMediaPage {
     }
     async verifyUpdateProvider(text: string) {
         await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
+        await this.page.waitForTimeout(5000);
+        await expect(this.elements.actionColumn()).toBeVisible();
         await expect(this.elements.updatedProvider(text)).toBeVisible();
     }
     async deleteProvider(text: string) {
@@ -79,6 +81,7 @@ export default class SocialMediaPage {
     }
     async verifyDeleteProvider(text: string) {
         await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
+        await this.page.waitForTimeout(10000);
         await expect(this.elements.updatedProvider(text)).toBeHidden();
     }
     async deleteMultiProvider(text: string) {
