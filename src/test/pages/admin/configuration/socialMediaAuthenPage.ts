@@ -68,6 +68,8 @@ export default class SocialMediaPage {
         await this.elements.clientSecret().click();
         await this.elements.clientSecret().fill(secret);
         await this.elements.saveBtn().click();
+        await this.elements.successToast().waitFor({ state: 'visible', timeout: 4000 });
+        await this.page.waitForLoadState('load');
     }
     async verifyUpdateProvider(text: string) {
         await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
